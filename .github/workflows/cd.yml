@@ -34,6 +34,10 @@ jobs:
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
+      - name: Terraform init
+        working-directory: terraform
+        run: terraform init
+
       - name: Build and push Docker image
         run: |
           export DOCKER_BUILDKIT=0
@@ -42,15 +46,11 @@ jobs:
           docker build -t $ECR_REPO:$IMAGE_TAG -f docker/Dockerfile .
           docker push $ECR_REPO:$IMAGE_TAG
 
-      - name: Terraform init
-        working-directory: terraform
-        run: terraform init
-
       - name: Terraform apply
         working-directory: terraform
         run: |
           terraform apply \
-          -auto-apprrove \
+          -auto-approve \
           -var="image_tag=${IMAGE_TAG}"
 
       - name: Wait for ECS service to stabilize
@@ -63,7 +63,7 @@ jobs:
             --services $SERVICE_NAME
 
       - name: Verify application health endpoint
-        id: health-check
+        id: health_check
         continue-on-error: true
         run: |
           ALB_DNS=$(terraform -chdir=terraform output -raw alb_dns_name)
