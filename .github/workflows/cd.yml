@@ -37,7 +37,10 @@ jobs:
       - name: Build and push Docker image
         run: |
           ECR_REPO=$(terraform -chdir=terraform output -raw ecr_repository_url)
-          docker build -t $ECR_REPO:$IMAGE_TAG -f docker/Dockerfile .
+          docker build \
+            -t $ECR_REPO:$IMAGE_TAG \
+            -f docker/Dockerfile \
+            $GITHUB_WORKSPACE
           docker push $ECR_REPO:$IMAGE_TAG
 
       - name: Terraform init
