@@ -38,6 +38,13 @@ jobs:
         working-directory: terraform
         run: terraform init
 
+      - name: Terraform apply (bootstrap infra)
+        working-directory: terraform
+        run: |
+          terraform apply \
+          -auto-approve \
+          -var="image_tag=bootstrap"
+
       - name: Build and push Docker image
         run: |
           export DOCKER_BUILDKIT=0
@@ -46,7 +53,7 @@ jobs:
           docker build -t $ECR_REPO:$IMAGE_TAG -f docker/Dockerfile .
           docker push $ECR_REPO:$IMAGE_TAG
 
-      - name: Terraform apply
+      - name: Terraform apply (depoy app)
         working-directory: terraform
         run: |
           terraform apply \
