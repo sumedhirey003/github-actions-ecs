@@ -36,11 +36,11 @@ jobs:
           docker push $ECR_REPO:$IMAGE_TAG
 
       - name: Terraform init
-        working_directory: terraform
+        working-directory: terraform
         run: terraform init
 
       - name: Terraform apply
-        working_directory: terraform
+        working-directory: terraform
         run: |
           terraform apply \
           -auto-apprrove \
