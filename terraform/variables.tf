@@ -7,5 +7,10 @@ variable "aws_region" {
 variable "project_name" {
   description = "Project name prefix for resources"
   type        = string
-  default     = "flask-ecs-terraform"
+  default     = "github-actions-ecs-cicd"
+}
+
+variable "image_tag" {
+  description = "Docker image tag to deploy"
+  type        = string
 }
