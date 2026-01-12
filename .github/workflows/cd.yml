@@ -8,7 +8,7 @@ on:
 jobs:
   deploy:
     name: Build, Push and Deploy
-    runs-on: ubuntu-laatest
+    runs-on: ubuntu-latest
 
     env:
       AWS_REGION: ${{ secrets.AWS_REGION }}
